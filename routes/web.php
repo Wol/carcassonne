@@ -11,66 +11,11 @@
 |
 */
 
+
 use App\Game;
-use App\GameTile;
 use App\User;
 use Carbon\Carbon;
 
-Route::get('/game/{game}/tiles', function (Game $game) {
-
-
-    $output = [];
-
-    $output['tiles'] = $game->placedtiles();
-    $output['minions'] = $game->placedminions();
-
-    return $output;
-});
-
-
-Route::get('/game/{game}/board', function (Game $game) {
-    return view('tiles', compact('game'));
-});
-
-
-Route::get('/game/{game}/nexttile', function (Game $game) {
-    return ['nexttile' => $game->getNextTile()];
-});
-
-
-Route::get('/tile/{gametile}/place/{x}/{y}', function (GameTile $gametile, $x, $y) {
-    return $gametile->availableRotationsAt($x, $y);
-});
-
-Route::get('/tile/{gametile}/place/{x}/{y}/{rotation}', function (GameTile $gametile, $x, $y, $rotation) {
-
-    $gametile->placeAt($x, $y, $rotation);
-    
-    $output = [];
-    $output['tiles'] = [$gametile];
-    $output['availableelements'] = $gametile->getAvailableMinionPlacementAreas();
-
-    return $output;
-
-
-});
-
-Route::get('/element/{gameareaelement}/placeminion/{miniontype}',
-    function (\App\GameAreaElement $gameareaelement, $miniontype) {
-
-
-        $pl = $gameareaelement->tile->game->players()->first();
-
-        $minion = $pl->minions()->unplaced()->type($miniontype)->first();
-
-        $minion->placeOn($gameareaelement);
-
-        $output = [];
-        $output['minions'] = [$minion];
-
-        return $output;
-
-    });
 
 
 Route::get('/phpinfo', function () {
@@ -134,8 +79,20 @@ Route::get('/test', function () {
 */
 
 Route::group(['middleware' => 'web'], function () {
+    
 
-    Route::get('/home', 'HomeController@index');
+    Route::get('/game/{game}/tiles', 'GameController@currentstate');
+    Route::get('/game/{game}/board', 'GameController@board');
+    Route::get('/game/{game}/nexttile', 'GameController@nexttile');
+
+
+    Route::get('/tile/{gametile}/place/{x}/{y}', 'BoardController@rotationsat');
+
+    Route::get('/tile/{gametile}/place/{x}/{y}/{rotation}', 'BoardController@placetile');
+
+    Route::get('/element/{gameareaelement}/placeminion/{miniontype}', 'BoardController@placeminion');
+
+    
 });
 
 
