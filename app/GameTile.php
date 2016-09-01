@@ -4,6 +4,7 @@ namespace App;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GameTile extends Model
@@ -67,8 +68,12 @@ class GameTile extends Model
     }
 
 
-    public function place($x, $y, $rotation, $user)
+    private function place($x, $y, $rotation, $user = null)
     {
+
+        if(is_null($user)){
+            $user = Auth::user();
+        }
 
         // TODO: check to see whether the tile fits here and matches with something.
 
@@ -80,6 +85,7 @@ class GameTile extends Model
         $this->save();
 
         $this->createElements();
+
     }
 
 
@@ -298,13 +304,15 @@ class GameTile extends Model
         }
         // Check that the tiles edges can fit.
 
-        $this->place($x, $y, $rotation, User::find(1));
+        $this->place($x, $y, $rotation);
 
         $this->load('neighbours.elements.area');
 
         $this->connectEdges();
 
         $this->createAreasForOrphanedElements();
+
+        return $this;
 
     }
     

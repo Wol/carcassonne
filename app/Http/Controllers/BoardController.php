@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\GameTile;
 
-use App\Http\Requests;
 
 class BoardController extends Controller
 {

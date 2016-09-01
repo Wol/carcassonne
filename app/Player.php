@@ -30,6 +30,9 @@ class Player extends Model
         if(is_null($minion)){
             throw Exception('No More minions of that type available');
         }
+
+        // TODO: Check to make sure that the area which the element is in doesn't already have a minion.
+
         $minion->element()->associate($element);
         $minion->save();
     }

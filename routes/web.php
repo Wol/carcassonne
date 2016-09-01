@@ -42,22 +42,22 @@ Route::get('/test', function () {
 
     $pl = $game->players()->first();
 
-    $element = $game->placeTile($game->getNextTile(), 0, 0, 0)->get(3);
+    $element = $game->getNextTile()->placeAt(0, 0, 0)->getAvailableMinionPlacementAreas()->get(3);
     $pl->placeMinionOn($element, 1);
 
-    $element = $game->placeTile($game->getNextTile(), 0, 1, 90)->random();
+    $element = $game->getNextTile()->placeAt(0, 1, 90)->getAvailableMinionPlacementAreas()->random();
     $pl->placeMinionOn($element, 1);
 
-    $element = $game->placeTile($game->getNextTile(), 2, 0, 0)->get(2);
+    $element = $game->getNextTile()->placeAt(2, 0, 0)->getAvailableMinionPlacementAreas()->get(2);
     $pl->placeMinionOn($element, 1);
 
-    $element = $game->placeTile($game->getNextTile(), 2, -2, 0)->random();
+    $element = $game->getNextTile()->placeAt(2, -2, 0)->getAvailableMinionPlacementAreas()->random();
     $pl->placeMinionOn($element, 1);
 
-    $element = $game->placeTile($game->getNextTile(), 1, 0, 0)->random();
+    $element = $game->getNextTile()->placeAt(1, 0, 0)->getAvailableMinionPlacementAreas()->random();
     $pl->placeMinionOn($element, 1);
 
-    $element = $game->placeTile($game->getNextTile(), 0, -1, 270)->random();
+    $element = $game->getNextTile()->placeAt(0, -1, 270)->getAvailableMinionPlacementAreas()->random();
     $pl->placeMinionOn($element, 1);
 
     //return $game;
