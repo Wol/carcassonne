@@ -17,7 +17,7 @@ class GameController extends Controller
     
         $output['tiles'] = $game->placedtiles();
         $output['minions'] = $game->placedminions();
-    
+        $output['players'] = $game->players()->with('minions')->get();
         return $output;
     }
     

@@ -39,17 +39,18 @@ class Minion extends Model
     }
 
     public function getXAttribute(){
-        return $this->element->global_x;
+        return $this->element->global_x ?? null;
     }
 
     public function getYAttribute(){
-        return $this->element->global_y;
+        return $this->element->global_y ?? null;
     }
 
     public function getPlacedOnAttribute()
     {
-        return $this->element->type;
+        return $this->element->type ?? null;
     }
+
     public function placeOn(GameAreaElement $element)
     {
         $this->element()->associate($element);
